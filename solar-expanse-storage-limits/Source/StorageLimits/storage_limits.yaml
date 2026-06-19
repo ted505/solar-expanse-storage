@@ -1,0 +1,139 @@
+# Storage Limits Configuration
+#
+# baseCapacity: default storage per resource at every location (kilotons)
+# facilities: map of facility ID -> resource ID -> capacity grant per unit
+#
+# Total cap for a resource at a location:
+#   baseCapacity + sum(facility_grant * facility_quantity)
+#
+# Production (mining, refining, byproducts) is throttled when storage is full.
+# Cargo deliveries are always accepted even if they exceed the cap.
+#
+# spoilage: when stock exceeds the cap, the excess is transferred back into
+#   resource deposits at a configurable rate per game day.
+#   - defaultRate: percent of excess transferred per day (for uncategorized resources)
+#   - rates: per-facility-category overrides (facility ID -> percent)
+#   A rate of 5 means 5% of the excess above cap is removed per day.
+
+baseCapacity: 3000
+baseCapacityOrbit: 0
+
+facilities:
+  # Field Storage Depot — cheap early-game, small grants for bulk + general
+  build_storage_field:
+    id_resource_steel: 2000       # Alloys
+    id_resource_glass: 2000
+    id_resource_alloy: 2000       # Exotic Alloys
+    id_resource_metal: 2000
+    id_resource_silicon: 2000     # Silicates
+    id_resource_raremetal: 2000   # Rare Metals
+    id_resource_volatile: 2000    # Carbon
+    id_resource_water: 2000
+    id_resource_supply: 2000      # Supplies
+    id_resource_consumergoods: 2000
+    id_resource_chips: 2000       # Electronics
+    id_resource_plastic: 2000     # Polymers
+    id_resource_uran: 2000        # Fissiles
+    id_resource_antimatter: 2000
+
+  # Bulk Storage Depot — structural materials, metals, minerals
+  build_storage_bulk:
+    id_resource_steel: 10000      # Alloys
+    id_resource_glass: 10000
+    id_resource_alloy: 10000      # Exotic Alloys
+    id_resource_metal: 10000
+    id_resource_silicon: 10000    # Silicates
+    id_resource_raremetal: 10000  # Rare Metals
+    id_resource_volatile: 10000   # Carbon
+
+  # Storage Depot — manufactured goods, supplies, specialty + bulk
+  build_storage_general:
+    id_resource_steel: 10000      # Alloys
+    id_resource_glass: 10000
+    id_resource_alloy: 10000      # Exotic Alloys
+    id_resource_metal: 10000
+    id_resource_silicon: 10000    # Silicates
+    id_resource_raremetal: 10000  # Rare Metals
+    id_resource_volatile: 10000   # Carbon
+    id_resource_water: 10000
+    id_resource_supply: 10000     # Supplies
+    id_resource_consumergoods: 10000
+    id_resource_chips: 10000      # Electronics
+    id_resource_plastic: 10000    # Polymers
+    id_resource_uran: 10000       # Fissiles
+    id_resource_antimatter: 10000
+
+  # Cryogenic Storage Facility — volatiles, gases, propellants
+  build_storage_cryo:
+    id_resource_fuel: 10000
+    id_resource_hel3: 10000       # Helium-3
+    id_resource_hydrogen: 10000
+    id_resource_noblegas: 10000   # Noble Gas
+    id_resource_oxygen: 10000
+    id_resource_nitrogen: 10000
+    id_resource_co2: 10000        # Carbon Dioxide
+
+  # Cryogenic Storage Depot (large) — same resources, bigger grants
+  build_storage_cryo_big:
+    id_resource_fuel: 50000
+    id_resource_hel3: 50000       # Helium-3
+    id_resource_hydrogen: 50000
+    id_resource_noblegas: 50000   # Noble Gas
+    id_resource_oxygen: 50000
+    id_resource_nitrogen: 50000
+    id_resource_co2: 50000        # Carbon Dioxide
+
+# placement: where storage limits apply per resource.
+# Values: "surface", "orbit", or "both" (default if not listed).
+placement:
+  # Bulk — surface only
+  id_resource_steel: surface
+  id_resource_glass: surface
+  id_resource_alloy: surface
+  id_resource_metal: surface
+  id_resource_silicon: surface
+  id_resource_raremetal: surface
+  id_resource_volatile: surface
+
+  # General — surface only
+  id_resource_water: surface
+  id_resource_supply: surface
+  id_resource_consumergoods: surface
+  id_resource_chips: surface
+  id_resource_plastic: surface
+  id_resource_uran: surface
+  id_resource_antimatter: surface
+
+  # Cryogenic — both (orbit and surface)
+  # id_resource_fuel: both        # (default, no need to list)
+
+spoilage:
+  # percent of excess above cap removed per game day, per resource
+  # Resources not listed here do not spoil.
+  rates:
+    # Bulk — structural materials
+    id_resource_steel: 0.001        # Alloys
+    id_resource_glass: 0.001
+    id_resource_alloy: 0.001        # Exotic Alloys
+    id_resource_metal: 0.001
+    id_resource_silicon: 0.001      # Silicates
+    id_resource_raremetal: 0.001    # Rare Metals
+    id_resource_volatile: 0.001     # Carbon
+
+    # General — manufactured goods
+    id_resource_water: 0.01
+    id_resource_supply: 0.01         # Supplies
+    id_resource_consumergoods: 0.01
+    id_resource_chips: 0.01          # Electronics
+    id_resource_plastic: 0.01        # Polymers
+    id_resource_uran: 0.01           # Fissiles
+    id_resource_antimatter: 0.01
+
+    # Cryogenic — gases and propellants
+    id_resource_fuel: 0.5
+    id_resource_hel3: 5           # Helium-3
+    id_resource_hydrogen: 3
+    id_resource_noblegas: 0.1       # Noble Gas
+    id_resource_oxygen: 0.5
+    id_resource_nitrogen: 0.5
+    id_resource_co2: 0.1            # Carbon Dioxide
